@@ -1,6 +1,7 @@
 package com.beyondB.beyondB.entity;
 
 import com.beyondB.beyondB.entity.enums.Age;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,5 +33,6 @@ public class BookAge {
     private Book book;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(20)")
     private Age age;
 }
