@@ -3,6 +3,7 @@ package com.beyondB.beyondB.entity;
 import com.beyondB.beyondB.entity.enums.Emotion;
 import com.beyondB.beyondB.entity.mapping.BookFeeling;
 import com.beyondB.beyondB.entity.mapping.DiaryFeeling;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +30,7 @@ public class Feeling {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(20)")
     private Emotion emotion;
 
     @OneToOne(mappedBy = "feeling")
