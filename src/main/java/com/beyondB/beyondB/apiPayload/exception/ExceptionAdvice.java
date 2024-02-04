@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -27,27 +26,27 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
-    @Override
-    protected ResponseEntity<Object> handleTypeMismatch(
-            TypeMismatchException e,
-            HttpHeaders headers,
-            HttpStatusCode status,
-            WebRequest request) {
-        String errorMessage = e.getPropertyName() + ": 올바른 값이 아닙니다.";
-
-        return handleExceptionInternalMessage(e, headers, request, errorMessage);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(
-            MissingServletRequestParameterException e,
-            HttpHeaders headers,
-            HttpStatusCode status,
-            WebRequest request) {
-        String errorMessage = e.getParameterName() + ": 올바른 값이 아닙니다.";
-
-        return handleExceptionInternalMessage(e, headers, request, errorMessage);
-    }
+//    @Override
+//    protected ResponseEntity<Object> handleTypeMismatch(
+//            TypeMismatchException e,
+//            HttpHeaders headers,
+//            HttpStatusCode status,
+//            WebRequest request) {
+//        String errorMessage = e.getPropertyName() + ": 올바른 값이 아닙니다.";
+//
+//        return handleExceptionInternalMessage(e, headers, request, errorMessage);
+//    }
+//
+//    @Override
+//    protected ResponseEntity<Object> handleMissingServletRequestParameter(
+//            MissingServletRequestParameterException e,
+//            HttpHeaders headers,
+//            HttpStatusCode status,
+//            WebRequest request) {
+//        String errorMessage = e.getParameterName() + ": 올바른 값이 아닙니다.";
+//
+//        return handleExceptionInternalMessage(e, headers, request, errorMessage);
+//    }
 
     @ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
@@ -64,31 +63,31 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY, request);
     }
 
-    @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException e,
-            HttpHeaders headers,
-            HttpStatusCode status,
-            WebRequest request) {
-
-        Map<String, String> errors = new LinkedHashMap<>();
-
-        e.getBindingResult().getFieldErrors().stream()
-                .forEach(
-                        fieldError -> {
-                            String fieldName = fieldError.getField();
-                            String errorMessage =
-                                    Optional.ofNullable(fieldError.getDefaultMessage()).orElse("");
-                            errors.merge(
-                                    fieldName,
-                                    errorMessage,
-                                    (existingErrorMessage, newErrorMessage) ->
-                                            existingErrorMessage + ", " + newErrorMessage);
-                        });
-
-        return handleExceptionInternalArgs(
-                e, HttpHeaders.EMPTY, ErrorStatus.valueOf("_BAD_REQUEST"), request, errors);
-    }
+//    @Override
+//    public ResponseEntity<Object> handleMethodArgumentNotValid(
+//            MethodArgumentNotValidException e,
+//            HttpHeaders headers,
+//            HttpStatusCode status,
+//            WebRequest request) {
+//
+//        Map<String, String> errors = new LinkedHashMap<>();
+//
+//        e.getBindingResult().getFieldErrors().stream()
+//                .forEach(
+//                        fieldError -> {
+//                            String fieldName = fieldError.getField();
+//                            String errorMessage =
+//                                    Optional.ofNullable(fieldError.getDefaultMessage()).orElse("");
+//                            errors.merge(
+//                                    fieldName,
+//                                    errorMessage,
+//                                    (existingErrorMessage, newErrorMessage) ->
+//                                            existingErrorMessage + ", " + newErrorMessage);
+//                        });
+//
+//        return handleExceptionInternalArgs(
+//                e, HttpHeaders.EMPTY, ErrorStatus.valueOf("_BAD_REQUEST"), request, errors);
+//    }
 
     @ExceptionHandler
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
