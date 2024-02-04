@@ -1,8 +1,11 @@
 ## Default profile
 spring:
   application:
-    name: beyondb
+    name: beyondB
   profiles:
+    group:
+      "local": "local, jwt, oauth-local"
+      "dev": "dev, jwt, oauth-dev"
     active: dev
 springdoc:
   swagger-ui:

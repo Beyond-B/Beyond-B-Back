@@ -2,8 +2,10 @@ package com.beyondB.beyondB.entity;
 
 import com.beyondB.beyondB.entity.common.BaseEntity;
 import com.beyondB.beyondB.entity.enums.Role;
+import com.beyondB.beyondB.entity.enums.SocialType;
 import com.beyondB.beyondB.entity.mapping.UserBook;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,6 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Builder
@@ -40,8 +43,6 @@ public class User extends BaseEntity {
 
     private String email;
 
-    private String socialType;
-
     private String birth;
 
     private String picture;
@@ -53,17 +54,28 @@ public class User extends BaseEntity {
     private List<UserBook> userBookList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING) // Enum 타입은 문자열 형태로 저장해야 함
+    @Column(columnDefinition = "VARCHAR(20)")
     @NotNull
     private Role role;
 
-    public String getRoleKey() {
-        return this.role.getKey();
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType; // KAKAO, NAVER, GOOGLE
+
+    private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
+
+    private String refreshToken; // 리프레시 토큰
+
+    // 유저 권한 설정 메소드
+    public void authorizeUser() {
+        this.role = Role.USER;
     }
 
-    public User update(String name, String picture) {
-        this.username = name;
-        this.picture = picture;
+    // 비밀번호 암호화 메소드
+    public void passwordEncode(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
 
-        return this;
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
     }
 }
