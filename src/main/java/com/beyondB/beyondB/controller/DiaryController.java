@@ -29,26 +29,26 @@ public class DiaryController {
     @PatchMapping("/")
     @Parameter(name = "user", hidden = true)
     @ResponseStatus(code = HttpStatus.OK)
-    public BaseResponse<DiaryResponseDTO.DiaryResponseResultDTO> DiaryResponseResult(
+    public BaseResponse<DiaryResponseDTO.DiaryContentDTO> diaryResponseResult(
             @AuthUser User user,
             @Valid @RequestBody DiaryRequestDTO.UpdateDiaryDTO request) {
         Diary updatedDiary = diaryService.updateDiary(request);
 
         return BaseResponse.of(
-                SuccessStatus._OK, DiaryConverter.toUpdateDiaryDTO(updatedDiary));
+                SuccessStatus._OK, DiaryConverter.toDiaryContentDTO(updatedDiary));
     }
 
     @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "등록 성공")})
     @Operation(summary = "일기 작성", description = "일기 작성 API입니다.")
     @PostMapping("/create")
     @Parameter(name = "user", hidden = true)
-    public BaseResponse<DiaryResponseDTO.DiaryResponseResultDTO> createDiary(
+    public BaseResponse<DiaryResponseDTO.DiaryContentDTO> createDiary(
             @AuthUser User user,
             @RequestBody DiaryRequestDTO.CreateDiaryDTO request) {
 
         Diary diary = diaryService.createDiary(request, user);
 
-        return BaseResponse.onSuccess(DiaryConverter.toUpdateDiaryDTO(diary));
+        return BaseResponse.onSuccess(DiaryConverter.toDiaryContentDTO(diary));
     }
     @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "삭제 성공")})
     @Operation(summary = "일기 삭제", description = "일기 삭제 API입니다.")
@@ -58,6 +58,16 @@ public class DiaryController {
         diaryService.deleteDiary(diaryId);
 
         return BaseResponse.onSuccess("해당 일기의 삭제가 완료되었습니다.");
+    }
+
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "삭제 성공")})
+    @Operation(summary = "일기 상세 조회", description = "일기 조회 API입니다.")
+    @GetMapping("/{diaryId}/detail")
+    @ResponseStatus(code = HttpStatus.OK)
+    public BaseResponse<DiaryResponseDTO.DiaryContentDTO> getDetailDiary(@PathVariable Long diaryId) {
+        Diary getDiary = diaryService.getDetailDiary(diaryId);
+
+        return BaseResponse.onSuccess(DiaryConverter.toDiaryContentDTO(getDiary));
     }
 
 }
