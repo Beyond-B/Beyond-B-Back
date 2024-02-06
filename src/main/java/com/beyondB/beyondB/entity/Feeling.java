@@ -1,8 +1,6 @@
 package com.beyondB.beyondB.entity;
 
 import com.beyondB.beyondB.entity.enums.Emotion;
-import com.beyondB.beyondB.entity.mapping.BookFeeling;
-import com.beyondB.beyondB.entity.mapping.DiaryFeeling;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,8 +8,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,9 +32,9 @@ public class Feeling {
     @Column(columnDefinition = "VARCHAR(20)")
     private Emotion emotion;
 
-    @OneToOne(mappedBy = "feeling")
-    private DiaryFeeling diaryFeeling;
+    @OneToMany(mappedBy = "feeling")
+    private List<Diary> diaryList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "feeling")
-    private BookFeeling bookFeeling;
+    @OneToMany(mappedBy = "feeling")
+    private List<Book> bookList = new ArrayList<>();
 }

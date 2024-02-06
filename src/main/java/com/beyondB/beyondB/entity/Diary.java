@@ -2,11 +2,8 @@ package com.beyondB.beyondB.entity;
 
 import com.beyondB.beyondB.entity.mapping.DiaryFeeling;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import lombok.*;
-
-import java.util.Date;
 
 @Entity
 @Builder
@@ -32,14 +29,13 @@ public class Diary {
 
     private LocalDate date;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private DiaryFeeling diaryFeeling;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "feeling_id")
+    private Feeling feeling;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void setDiaryFeeling(DiaryFeeling diaryFeeling) {
-        this.diaryFeeling = diaryFeeling;
-    }
+
 }

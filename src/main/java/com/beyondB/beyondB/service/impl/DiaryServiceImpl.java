@@ -1,6 +1,5 @@
 package com.beyondB.beyondB.service.impl;
 
-import com.beyondB.beyondB.apiPayload.code.BaseErrorCode;
 import com.beyondB.beyondB.apiPayload.code.status.ErrorStatus;
 import com.beyondB.beyondB.apiPayload.exception.DiaryException;
 import com.beyondB.beyondB.dto.request.DiaryRequestDTO;
@@ -8,17 +7,12 @@ import com.beyondB.beyondB.entity.Diary;
 import com.beyondB.beyondB.entity.Feeling;
 import com.beyondB.beyondB.entity.User;
 import com.beyondB.beyondB.entity.enums.Emotion;
-import com.beyondB.beyondB.entity.mapping.DiaryFeeling;
-import com.beyondB.beyondB.repository.DiaryFeelingRepository;
 import com.beyondB.beyondB.repository.DiaryRepository;
 import com.beyondB.beyondB.repository.FeelingRepository;
 import com.beyondB.beyondB.service.DiaryService;
 import org.springframework.transaction.annotation.Transactional;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,8 +21,6 @@ public class DiaryServiceImpl implements DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final FeelingRepository feelingRepository;
-    private final DiaryFeelingRepository diaryFeelingRepository;
-
     @Override
     @Transactional
     public Diary updateDiary(DiaryRequestDTO.UpdateDiaryDTO request){
@@ -55,11 +47,8 @@ public class DiaryServiceImpl implements DiaryService {
         Emotion emotion = request.getEmotion();
         Feeling feeling = feelingRepository.findByEmotion(emotion);
 
-        DiaryFeeling diaryFeeling = DiaryFeeling.builder().diary(diary).feeling(feeling).build();
+        diary.setFeeling(feeling);
 
-        diaryFeelingRepository.save(diaryFeeling);
-
-        diary.setDiaryFeeling(diaryFeeling);
 
         diaryRepository.save(diary);
         return diary;
