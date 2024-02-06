@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/diary")
 @RequiredArgsConstructor
@@ -60,7 +62,7 @@ public class DiaryController {
         return BaseResponse.onSuccess("해당 일기의 삭제가 완료되었습니다.");
     }
 
-    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "삭제 성공")})
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "조회 성공")})
     @Operation(summary = "일기 상세 조회", description = "일기 조회 API입니다.")
     @GetMapping("/{diaryId}/detail")
     @ResponseStatus(code = HttpStatus.OK)
@@ -68,6 +70,19 @@ public class DiaryController {
         Diary getDiary = diaryService.getDetailDiary(diaryId);
 
         return BaseResponse.onSuccess(DiaryConverter.toDiaryContentDTO(getDiary));
+    }
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "조회 성공")})
+    @Operation(summary = "한 달 간 일기 조회", description = "한 달 간 일기 조회 API입니다.")
+    @GetMapping("/monthly")
+    @ResponseStatus(code = HttpStatus.OK)
+    @Parameter(name = "user", hidden = true)
+    public BaseResponse<DiaryResponseDTO.MonthlyDiaryDTO> getMonthlyDiary(
+            @AuthUser User user,
+            @RequestParam("year") int year,
+            @RequestParam("month") int month) {
+        List<DiaryResponseDTO.MonthlyDiarySummaryDTO> monthlyDiary = diaryService.getMonthlyDiary(user, year, month);
+
+        return BaseResponse.onSuccess(DiaryConverter.toMonthlyDiaryDTO(monthlyDiary));
     }
 
 }
