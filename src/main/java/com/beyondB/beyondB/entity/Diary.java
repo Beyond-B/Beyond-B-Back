@@ -1,6 +1,5 @@
 package com.beyondB.beyondB.entity;
 
-import com.beyondB.beyondB.entity.mapping.DiaryFeeling;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -8,11 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import java.time.LocalDate;
 import lombok.*;
-
-import java.util.Date;
 
 @Entity
 @Builder
@@ -38,14 +34,13 @@ public class Diary {
 
     private LocalDate date;
 
-    @OneToOne
-    private DiaryFeeling diaryFeeling;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "feeling_id")
+    private Feeling feeling;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void setDiaryFeeling(DiaryFeeling diaryFeeling) {
-        this.diaryFeeling = diaryFeeling;
-    }
+
 }
