@@ -15,7 +15,7 @@ public class DiaryResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public  static class DiaryResponseResultDTO{
+    public  static class DiaryContentDTO{
         private Long diaryId;
         private LocalDate date;
         private String event;

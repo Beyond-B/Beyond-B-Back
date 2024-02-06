@@ -10,5 +10,7 @@ public interface DiaryService {
     Diary createDiary(DiaryRequestDTO.CreateDiaryDTO request, User user);
 
     void deleteDiary(Long diaryId);
+
+    Diary getDetailDiary(Long diaryId);
 }
 

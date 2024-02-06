@@ -23,7 +23,7 @@ public class DiaryRequestDTO {
     public static class UpdateDiaryDTO {
         @NotNull
         private Long diaryId;
-        private Date date;
+        private LocalDate date;
         private String event;
         private String thought;
         private String emotionSpecific;

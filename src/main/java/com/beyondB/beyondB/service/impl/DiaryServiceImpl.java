@@ -67,11 +67,18 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public  void deleteDiary(Long diaryId) {
+    public void deleteDiary(Long diaryId) {
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new DiaryException(ErrorStatus.DIARY_NOT_FOUND));
 
         diaryRepository.delete(diary);
+    }
+
+    @Override
+    @Transactional
+    public Diary getDetailDiary(Long diaryId) {
+        return diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new DiaryException(ErrorStatus.DIARY_NOT_FOUND));
     }
 
     private void updateDiaryFields(Diary diary, DiaryRequestDTO.UpdateDiaryDTO request) {
