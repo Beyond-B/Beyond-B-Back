@@ -1,14 +1,15 @@
 package com.beyondB.beyondB.entity;
 
-import com.beyondB.beyondB.entity.mapping.BookFeeling;
 import com.beyondB.beyondB.entity.mapping.UserBook;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -47,6 +48,7 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<UserBook> userBookList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "book")
-    private BookFeeling bookFeeling;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "feeling_id")
+    private Feeling feeling;
 }
