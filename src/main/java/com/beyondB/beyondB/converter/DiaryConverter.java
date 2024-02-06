@@ -16,8 +16,6 @@ public class DiaryConverter {
                 .emotionSpecific(diary.getEmotionSpecific())
                 .behavior(diary.getBehavior())
                 .result(diary.getResult())
-
-
                 .build();
     }
 }
