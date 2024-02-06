@@ -1,6 +1,5 @@
 package com.beyondB.beyondB.entity;
 
-import com.beyondB.beyondB.entity.mapping.DiaryFeeling;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
