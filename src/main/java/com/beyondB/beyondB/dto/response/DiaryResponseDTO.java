@@ -1,6 +1,7 @@
 package com.beyondB.beyondB.dto.response;
 
 import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +16,8 @@ public class DiaryResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public  static class DiaryResponseResultDTO{
-        private Long diary_id;
-        private Date date;
+        private Long diaryId;
+        private LocalDate date;
         private String event;
         private String thought;
         private String emotionSpecific;
