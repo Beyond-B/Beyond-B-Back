@@ -1,6 +1,7 @@
 package com.beyondB.beyondB.dto.request;
 
 import com.beyondB.beyondB.entity.User;
+import com.beyondB.beyondB.entity.enums.Emotion;
 import com.beyondB.beyondB.entity.mapping.DiaryFeeling;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;

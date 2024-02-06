@@ -5,5 +5,6 @@ import com.beyondB.beyondB.entity.Diary;
 
 public interface DiaryService {
     Diary updateDiary(DiaryRequestDTO.UpdateDiaryDTO request);
+    void deleteDiary(Long diaryId);
 }
 

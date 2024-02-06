@@ -32,4 +32,14 @@ public class DiaryController {
         return BaseResponse.of(
                 SuccessStatus._OK, DiaryConverter.toUpdateDiaryDTO(updatedDiary));
     }
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "삭제 성공")})
+    @Operation(summary = "일기 삭제", description = "일기 삭제 API입니다.")
+    @DeleteMapping("/delete")
+    @ResponseStatus(code = HttpStatus.OK)
+    public BaseResponse<String> deleteDiary(@Valid Long diaryId) {
+        diaryService.deleteDiary(diaryId);
+
+        return BaseResponse.onSuccess("해당 일기의 삭제가 완료되었습니다.");
+    }
+
 }

@@ -32,6 +32,15 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryRepository.save(diary);
     }
 
+    @Override
+    @Transactional
+    public  void deleteDiary(Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new DiaryException(ErrorStatus.DIARY_NOT_FOUND));
+
+        diaryRepository.delete(diary);
+    }
+
     private void updateDiaryFields(Diary diary, DiaryRequestDTO.UpdateDiaryDTO request) {
         diary.setEvent(request.getEvent());
         diary.setThought(request.getThought());

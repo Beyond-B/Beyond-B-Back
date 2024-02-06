@@ -11,6 +11,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Builder
 @Getter
@@ -22,6 +24,8 @@ public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Date date;
 
     private String event;
 
