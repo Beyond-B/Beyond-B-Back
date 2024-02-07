@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/diary")
@@ -80,9 +81,12 @@ public class DiaryController {
             @AuthUser User user,
             @RequestParam("year") int year,
             @RequestParam("month") int month) {
-        List<DiaryResponseDTO.MonthlyDiarySummaryDTO> monthlyDiary = diaryService.getMonthlyDiary(user, year, month);
+        List<Diary> diaries = diaryService.getMonthlyDiary(user, year, month);
+        List<DiaryResponseDTO.MonthlyDiarySummaryDTO> monthlyDiaryDTOs = diaries.stream()
+                .map(DiaryConverter::toMonthlyDiarySummaryDTO)
+                .collect(Collectors.toList());
 
-        return BaseResponse.onSuccess(DiaryConverter.toMonthlyDiaryDTO(monthlyDiary));
+        return BaseResponse.onSuccess(DiaryConverter.toMonthlyDiaryDTO(monthlyDiaryDTOs));
     }
 
 }

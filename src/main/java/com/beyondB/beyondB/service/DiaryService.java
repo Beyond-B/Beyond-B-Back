@@ -16,7 +16,7 @@ public interface DiaryService {
 
     Diary getDetailDiary(Long diaryId);
 
-    List<DiaryResponseDTO.MonthlyDiarySummaryDTO> getMonthlyDiary(User user, int year, int month);
+    List<Diary> getMonthlyDiary(User user, int year, int month);
 
 }
 

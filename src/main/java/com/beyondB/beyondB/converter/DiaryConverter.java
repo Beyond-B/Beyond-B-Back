@@ -18,10 +18,17 @@ public class DiaryConverter {
                 .result(diary.getResult())
                 .build();
     }
-    public static  DiaryResponseDTO.MonthlyDiaryDTO toMonthlyDiaryDTO(
+    public static DiaryResponseDTO.MonthlyDiaryDTO toMonthlyDiaryDTO(
             List<DiaryResponseDTO.MonthlyDiarySummaryDTO> diarySummaries){
         return DiaryResponseDTO.MonthlyDiaryDTO.builder()
                 .diarySummaries(diarySummaries)
+                .build();
+    }
+    public static DiaryResponseDTO.MonthlyDiarySummaryDTO toMonthlyDiarySummaryDTO(Diary diary) {
+        return DiaryResponseDTO.MonthlyDiarySummaryDTO.builder()
+                .diaryId(diary.getId())
+                .date(diary.getDate())
+                .feeling(diary.getFeeling().getEmotion())
                 .build();
     }
 }

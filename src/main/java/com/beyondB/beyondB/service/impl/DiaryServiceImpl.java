@@ -67,23 +67,14 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    @Transactional
     public Diary getDetailDiary(Long diaryId) {
         return diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new DiaryException(ErrorStatus.DIARY_NOT_FOUND));
     }
 
     @Override
-    @Transactional
-    public List<DiaryResponseDTO.MonthlyDiarySummaryDTO> getMonthlyDiary(User user, int year, int month) {
-        List<Diary> diaries = diaryRepository.findAllByUserAndYearAndMonth(user, year, month);
-        return diaries.stream()
-                .map(diary -> DiaryResponseDTO.MonthlyDiarySummaryDTO.builder()
-                        .diaryId(diary.getId())
-                        .date(diary.getDate())
-                        .feeling(diary.getFeeling().getEmotion())
-                        .build())
-                .collect(Collectors.toList());
+    public List<Diary> getMonthlyDiary(User user, int year, int month) {
+        return diaryRepository.findAllByUserAndYearAndMonth(user, year, month);
     }
 
 
