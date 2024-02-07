@@ -12,15 +12,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Entity
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Book {
@@ -37,7 +35,7 @@ public class Book {
 
     private String publisher;
 
-    private String publicationYear;
+    private int publicationYear;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BookAge> bookAgeList = new ArrayList<>();
@@ -51,4 +49,5 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feeling_id")
     private Feeling feeling;
+
 }
