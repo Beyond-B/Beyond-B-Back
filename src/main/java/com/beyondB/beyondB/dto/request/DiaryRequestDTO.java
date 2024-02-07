@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Year;
+import java.time.YearMonth;
 import java.util.Date;
 
 public class DiaryRequestDTO {
@@ -29,7 +31,6 @@ public class DiaryRequestDTO {
         private String behavior;
         private String result;
     }
-
     @Getter
     @Setter
     public static class CreateDiaryDTO {
