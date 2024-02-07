@@ -82,11 +82,8 @@ public class DiaryController {
             @RequestParam("year") int year,
             @RequestParam("month") int month) {
         List<Diary> diaries = diaryService.getMonthlyDiary(user, year, month);
-        List<DiaryResponseDTO.MonthlyDiarySummaryDTO> monthlyDiaryDTOs = diaries.stream()
-                .map(DiaryConverter::toMonthlyDiarySummaryDTO)
-                .collect(Collectors.toList());
 
-        return BaseResponse.onSuccess(DiaryConverter.toMonthlyDiaryDTO(monthlyDiaryDTOs));
+        return BaseResponse.onSuccess(DiaryConverter.toMonthlyDiaryDTO(diaries));
     }
 
 }

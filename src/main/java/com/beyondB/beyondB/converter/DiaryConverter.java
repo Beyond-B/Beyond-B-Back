@@ -5,6 +5,7 @@ import com.beyondB.beyondB.entity.Diary;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DiaryConverter {
     public static DiaryResponseDTO.DiaryContentDTO toDiaryContentDTO(Diary diary) {
@@ -19,7 +20,11 @@ public class DiaryConverter {
                 .build();
     }
     public static DiaryResponseDTO.MonthlyDiaryDTO toMonthlyDiaryDTO(
-            List<DiaryResponseDTO.MonthlyDiarySummaryDTO> diarySummaries){
+            List<Diary> diaries){
+        List<DiaryResponseDTO.MonthlyDiarySummaryDTO> diarySummaries = diaries.stream()
+                .map(DiaryConverter::toMonthlyDiarySummaryDTO)
+                .collect(Collectors.toList());
+
         return DiaryResponseDTO.MonthlyDiaryDTO.builder()
                 .diarySummaries(diarySummaries)
                 .build();
