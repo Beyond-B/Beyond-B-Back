@@ -18,7 +18,6 @@ import lombok.*;
 @Entity
 @Builder
 @Getter
-@Setter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Book {
@@ -37,6 +36,7 @@ public class Book {
 
     private int publicationYear;
 
+    @Builder.Default
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BookAge> bookAgeList = new ArrayList<>();
 

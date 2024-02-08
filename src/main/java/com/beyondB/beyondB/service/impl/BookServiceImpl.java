@@ -25,13 +25,14 @@ public class BookServiceImpl implements BookService {
     private final FeelingRepository feelingRepository;
     @Transactional
     public Book createBook(BookRequestDTO.CreateBookDTO request) {
+        Feeling feeling = feelingRepository.findByEmotion(request.getEmotion());
         Book book = Book.builder()
                 .title(request.getTitle())
                 .bookSummary(request.getBookSummary())
                 .author(request.getAuthor())
                 .publisher(request.getPublisher())
                 .publicationYear(request.getPublicationYear())
-
+                .feeling(feeling)
                 .build();
 
         List<BookAge> bookAgeList = new ArrayList<>();
@@ -43,12 +44,7 @@ public class BookServiceImpl implements BookService {
             bookAgeList.add(bookAge);
         }
 
-        book.setBookAgeList(bookAgeList);
-
-        Emotion emotion = request.getEmotion();
-        Feeling feeling = feelingRepository.findByEmotion(emotion);
-
-        book.setFeeling(feeling);
+        book.getBookAgeList().addAll(bookAgeList);
 
         bookRepository.save(book);
         return book;
