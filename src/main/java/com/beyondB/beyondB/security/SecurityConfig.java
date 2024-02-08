@@ -26,12 +26,14 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     private final String[] securityAllowArray = {
-        "/api/login",
-        "/health",
-        "/error",
-        "/swagger-ui/**",
-        "/swagger-resources/**",
-        "/v3/api-docs/**",
+            "/api/login",
+            "/health",
+            "/error",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
+            "/sign-up",
+            "/api/auth/login",
     };
 
     @Bean
