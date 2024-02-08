@@ -30,6 +30,8 @@ public class Book {
 
     private String bookSummary;
 
+    private String bookImage;
+
     private String author;
 
     private String publisher;

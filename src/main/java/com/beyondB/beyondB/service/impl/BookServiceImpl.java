@@ -1,5 +1,7 @@
 package com.beyondB.beyondB.service.impl;
 
+import com.beyondB.beyondB.apiPayload.code.status.ErrorStatus;
+import com.beyondB.beyondB.apiPayload.exception.BookException;
 import com.beyondB.beyondB.dto.request.BookRequestDTO;
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.BookAge;
@@ -14,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +27,18 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final FeelingRepository feelingRepository;
+
     @Transactional
     public Book createBook(BookRequestDTO.CreateBookDTO request) {
+        if (!isImageUrlValid(request.getBooKImage())) {
+            throw new BookException(ErrorStatus.BOOK_BAD_REQUEST);
+        }
+
         Feeling feeling = feelingRepository.findByEmotion(request.getEmotion());
         Book book = Book.builder()
                 .title(request.getTitle())
                 .bookSummary(request.getBookSummary())
+                .bookImage(request.getBooKImage())
                 .author(request.getAuthor())
                 .publisher(request.getPublisher())
                 .publicationYear(request.getPublicationYear())
@@ -48,5 +58,18 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
         return book;
+    }
+
+    private boolean isImageUrlValid(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("HEAD");
+            connection.connect();
+            String contentType = connection.getContentType();
+            return contentType != null && contentType.startsWith("image/");
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

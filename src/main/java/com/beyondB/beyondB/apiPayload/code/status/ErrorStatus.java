@@ -41,7 +41,11 @@ public enum ErrorStatus implements BaseErrorCode {
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REV_001", "존재하지 않는 리뷰입니다."),
 
     // Diary 관련
-    DIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "DI_001", "존재하지 않는 일기입니다.");
+    DIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "DI_001", "존재하지 않는 일기입니다."),
+
+    // Book 관련
+    BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "BOOK_001", "존재하지 않는 책입니다."),
+    BOOK_BAD_REQUEST(HttpStatus.BAD_REQUEST, "BOOK_400", "잘못된 요청입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

@@ -9,7 +9,7 @@ public class BookConverter {
                 .bookId(book.getId())
                 .title(book.getTitle())
                 .bookSummary(book.getBookSummary())
-                //이미지 처리 추가 필요
+                .bookImage(book.getBookImage())
                 .author(book.getAuthor())
                 .publisher(book.getPublisher())
                 .publicationYear(book.getPublicationYear())

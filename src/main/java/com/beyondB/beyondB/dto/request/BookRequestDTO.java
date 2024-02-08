@@ -13,7 +13,7 @@ public class BookRequestDTO {
     public static class CreateBookDTO {
         private String title;
         private String bookSummary;
-        private String image;
+        private String booKImage;
         private String author;
         private String publisher;
         private int publicationYear;

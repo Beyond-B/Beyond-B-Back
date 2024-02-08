@@ -14,7 +14,7 @@ public class BookResponseDTO {
         private Long bookId;
         private String title;
         private String bookSummary;
-        private String image;
+        private String bookImage;
         private String author;
         private String publisher;
         private int publicationYear;
