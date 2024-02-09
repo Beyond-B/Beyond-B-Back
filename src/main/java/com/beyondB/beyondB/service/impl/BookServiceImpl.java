@@ -1,6 +1,8 @@
 package com.beyondB.beyondB.service.impl;
 
 import com.beyondB.beyondB.apiPayload.code.status.ErrorStatus;
+import com.beyondB.beyondB.apiPayload.exception.BookException;
+import com.beyondB.beyondB.dto.request.BookRequestDTO;
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.BookAge;
 import com.beyondB.beyondB.entity.Feeling;

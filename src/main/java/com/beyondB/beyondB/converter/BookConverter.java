@@ -31,22 +31,6 @@ public class BookConverter {
         }).collect(Collectors.toList());
     }
 
-        public static BookResponseDTO.BookContentDTO toCreatBookDTO(Book book) {
-            return BookResponseDTO.BookContentDTO.builder()
-                    .bookId(book.getId())
-                    .title(book.getTitle())
-                    .bookSummary(book.getBookSummary())
-                    .bookImage(book.getBookImage())
-                    .author(book.getAuthor())
-                    .publisher(book.getPublisher())
-                    .publicationYear(book.getPublicationYear())
-                    .build();
-        }
-
-    }
-}
-
-public class BookConverter {
     public static BookResponseDTO.BookContentDTO toCreatBookDTO(Book book) {
         return BookResponseDTO.BookContentDTO.builder()
                 .bookId(book.getId())
@@ -58,4 +42,7 @@ public class BookConverter {
                 .publicationYear(book.getPublicationYear())
                 .build();
     }
+
+
 }
+
