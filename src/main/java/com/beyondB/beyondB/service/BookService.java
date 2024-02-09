@@ -5,4 +5,5 @@ import com.beyondB.beyondB.entity.Book;
 
 public interface BookService {
     Book createBook(BookRequestDTO.CreateBookDTO request);
+    Book getDetailBook(Long bookId);
 }

@@ -2,19 +2,18 @@ package com.beyondB.beyondB.controller;
 
 import com.beyondB.beyondB.apiPayload.BaseResponse;
 import com.beyondB.beyondB.converter.BookConverter;
+import com.beyondB.beyondB.converter.DiaryConverter;
 import com.beyondB.beyondB.dto.request.BookRequestDTO;
 import com.beyondB.beyondB.dto.response.BookResponseDTO;
+import com.beyondB.beyondB.dto.response.DiaryResponseDTO;
 import com.beyondB.beyondB.entity.Book;
-import com.beyondB.beyondB.entity.BookAge;
 import com.beyondB.beyondB.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +30,15 @@ public class bookController {
 
         Book book = bookService.createBook(request);
 
-        return BaseResponse.onSuccess(BookConverter.toCreatBookDTO(book));
+        return BaseResponse.onSuccess(BookConverter.toBookContentDTO(book));
+    }
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "조회 성공")})
+    @Operation(summary = "책 상세 조회", description = "책 상세조회 API입니다.")
+    @GetMapping("/{bookId}/detail")
+    @ResponseStatus(code = HttpStatus.OK)
+    public BaseResponse<BookResponseDTO.BookContentDTO> getDetailBook(@PathVariable Long bookId) {
+        Book getBook = bookService.getDetailBook(bookId);
+
+        return BaseResponse.onSuccess(BookConverter.toBookContentDTO(getBook));
     }
 }

@@ -2,9 +2,11 @@ package com.beyondB.beyondB.service.impl;
 
 import com.beyondB.beyondB.apiPayload.code.status.ErrorStatus;
 import com.beyondB.beyondB.apiPayload.exception.BookException;
+import com.beyondB.beyondB.apiPayload.exception.DiaryException;
 import com.beyondB.beyondB.dto.request.BookRequestDTO;
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.BookAge;
+import com.beyondB.beyondB.entity.Diary;
 import com.beyondB.beyondB.entity.Feeling;
 import com.beyondB.beyondB.entity.enums.Age;
 import com.beyondB.beyondB.entity.enums.Emotion;
@@ -58,6 +60,11 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
         return book;
+    }
+    @Override
+    public Book getDetailBook(Long bookId) {
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookException(ErrorStatus.BOOK_NOT_FOUND));
     }
 
     private boolean isImageUrlValid(String imageUrl) {
