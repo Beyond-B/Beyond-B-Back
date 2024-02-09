@@ -3,6 +3,7 @@ package com.beyondB.beyondB.service.impl;
 import com.beyondB.beyondB.apiPayload.code.status.ErrorStatus;
 import com.beyondB.beyondB.apiPayload.exception.DiaryException;
 import com.beyondB.beyondB.dto.request.DiaryRequestDTO;
+import com.beyondB.beyondB.dto.response.DiaryResponseDTO;
 import com.beyondB.beyondB.entity.Diary;
 import com.beyondB.beyondB.entity.Feeling;
 import com.beyondB.beyondB.entity.User;
@@ -13,6 +14,8 @@ import com.beyondB.beyondB.service.DiaryService;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -64,13 +67,19 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    @Transactional
     public Diary getDetailDiary(Long diaryId) {
         return diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new DiaryException(ErrorStatus.DIARY_NOT_FOUND));
     }
 
+    @Override
+    public List<Diary> getMonthlyDiary(User user, int year, int month) {
+        return diaryRepository.findAllByUserAndYearAndMonth(user, year, month);
+    }
+
+
     private void updateDiaryFields(Diary diary, DiaryRequestDTO.UpdateDiaryDTO request) {
+        diary.setDate(request.getDate());
         diary.setEvent(request.getEvent());
         diary.setThought(request.getThought());
         diary.setEmotionSpecific(request.getEmotionSpecific());

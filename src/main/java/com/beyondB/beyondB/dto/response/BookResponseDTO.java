@@ -21,4 +21,17 @@ public class BookResponseDTO {
         private Boolean quiz3;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public  static class BookContentDTO{
+        private Long bookId;
+        private String title;
+        private String bookSummary;
+        private String bookImage;
+        private String author;
+        private String publisher;
+        private int publicationYear;
+    }
 }
