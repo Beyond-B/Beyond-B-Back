@@ -32,14 +32,15 @@ public class UserServiceImpl implements UserService {
             throw new Exception("이미 존재하는 이메일입니다.");
         }
 
-        if (userRepository.findByUsername(userSignUpDto.getNickname()).isPresent()) {
+        if (userRepository.findByUsername(userSignUpDto.getUsername()).isPresent()) {
             throw new Exception("이미 존재하는 닉네임입니다.");
         }
 
         User user = User.builder()
                 .email(userSignUpDto.getEmail())
                 .password(userSignUpDto.getPassword())
-                .username(userSignUpDto.getNickname())
+                .username(userSignUpDto.getUsername())
+                .age(userSignUpDto.getAge())
                 .role(Role.USER)
                 .build();
 
