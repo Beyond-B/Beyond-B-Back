@@ -6,27 +6,41 @@ import com.beyondB.beyondB.dto.request.BookRequestDTO;
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.BookAge;
 import com.beyondB.beyondB.entity.Feeling;
+import com.beyondB.beyondB.entity.User;
 import com.beyondB.beyondB.entity.enums.Age;
 import com.beyondB.beyondB.entity.enums.Emotion;
-import com.beyondB.beyondB.repository.BookAgeRepository;
+import com.beyondB.beyondB.entity.mapping.UserBook;
 import com.beyondB.beyondB.repository.BookRepository;
 import com.beyondB.beyondB.repository.FeelingRepository;
+import com.beyondB.beyondB.repository.UserBookRepository;
 import com.beyondB.beyondB.service.BookService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
+
     private final BookRepository bookRepository;
     private final FeelingRepository feelingRepository;
+    private final UserBookRepository userBookRepository;
+
+    @Override
+    public List<Book> getBookPreview(Emotion emotion, User user) {
+        Feeling feeling = feelingRepository.findByEmotion(emotion);
+        return bookRepository.findAllByFeeling(feeling);
+    }
+
+    public List<UserBook> getUserBooks(User user) {
+        return userBookRepository.findAllByUser(user);
+
+    }
 
     @Transactional
     public Book createBook(BookRequestDTO.CreateBookDTO request) {
