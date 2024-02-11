@@ -3,16 +3,18 @@ package com.beyondB.beyondB.service.impl;
 import com.beyondB.beyondB.apiPayload.code.status.ErrorStatus;
 import com.beyondB.beyondB.apiPayload.exception.BookException;
 import com.beyondB.beyondB.apiPayload.exception.DiaryException;
+import com.beyondB.beyondB.apiPayload.exception.UserBookException;
+import com.beyondB.beyondB.converter.BookConverter;
 import com.beyondB.beyondB.dto.request.BookRequestDTO;
-import com.beyondB.beyondB.entity.Book;
-import com.beyondB.beyondB.entity.BookAge;
-import com.beyondB.beyondB.entity.Diary;
-import com.beyondB.beyondB.entity.Feeling;
+import com.beyondB.beyondB.dto.response.BookResponseDTO;
+import com.beyondB.beyondB.entity.*;
 import com.beyondB.beyondB.entity.enums.Age;
 import com.beyondB.beyondB.entity.enums.Emotion;
+import com.beyondB.beyondB.entity.mapping.UserBook;
 import com.beyondB.beyondB.repository.BookAgeRepository;
 import com.beyondB.beyondB.repository.BookRepository;
 import com.beyondB.beyondB.repository.FeelingRepository;
+import com.beyondB.beyondB.repository.UserBookRepository;
 import com.beyondB.beyondB.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,7 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final FeelingRepository feelingRepository;
+    private final UserBookRepository userBookRepository;
 
     @Transactional
     public Book createBook(BookRequestDTO.CreateBookDTO request) {
@@ -62,9 +66,20 @@ public class BookServiceImpl implements BookService {
         return book;
     }
     @Override
-    public Book getDetailBook(Long bookId) {
-        return bookRepository.findById(bookId)
+    public BookResponseDTO.DetailBookDTO getDetailBook(User user, Long bookId) {
+        Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookException(ErrorStatus.BOOK_NOT_FOUND));
+
+        UserBook userBook = userBookRepository.findByUserAndBook(user, book);
+        if (userBook == null) {
+            throw new UserBookException(ErrorStatus.USER_BOOK_NOT_FOUND);
+        }
+
+        LocalDateTime quiz1Date = userBook.getQuiz1Date();
+        LocalDateTime quiz2Date = userBook.getQuiz2Date();
+        LocalDateTime quiz3Date = userBook.getQuiz3Date();
+
+        return BookConverter.toDetailBookDTO(book, quiz1Date, quiz2Date, quiz3Date);
     }
 
     private boolean isImageUrlValid(String imageUrl) {
