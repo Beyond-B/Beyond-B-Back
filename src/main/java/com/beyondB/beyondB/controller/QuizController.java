@@ -26,8 +26,8 @@ public class QuizController {
     @Parameter(name = "user", hidden = true)
     public  BaseResponse<QuizResponseDTO.QuizDetailDTO> getQuiz(@AuthUser User user, @PathVariable Long bookId) {
 
-        BookQuiz Quiz= quizService.getQuiz(user, bookId);
+        BookQuiz requestedQuiz= quizService.getQuiz(user, bookId);
 
-        return BaseResponse.onSuccess(QuizConverter.toQuizDetailDTO(Quiz));
+        return BaseResponse.onSuccess(QuizConverter.toQuizDetailDTO(requestedQuiz));
     }
 }

@@ -43,7 +43,7 @@ public class User extends BaseEntity {
 
     private String email;
 
-    private String birth;
+    private String age;
 
     private String picture;
 

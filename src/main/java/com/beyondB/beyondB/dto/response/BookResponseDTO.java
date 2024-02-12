@@ -5,7 +5,24 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 public class BookResponseDTO {
+
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BookPreviewDTO {
+        private Long bookId;
+        private String title;
+
+        private Boolean quiz1;
+        private Boolean quiz2;
+        private Boolean quiz3;
+    }
+
     @Builder
     @Getter
     @NoArgsConstructor
@@ -17,6 +34,16 @@ public class BookResponseDTO {
         private String bookImage;
         private String author;
         private String publisher;
-        private int publicationYear;
+        private Integer publicationYear;
+    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DetailBookDTO {
+        private BookResponseDTO.BookContentDTO bookContent;
+        private LocalDateTime quiz1Date;
+        private LocalDateTime quiz2Date;
+        private LocalDateTime quiz3Date;
     }
 }
