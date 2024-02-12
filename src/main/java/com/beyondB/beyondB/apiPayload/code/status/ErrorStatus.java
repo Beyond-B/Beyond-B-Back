@@ -45,7 +45,11 @@ public enum ErrorStatus implements BaseErrorCode {
     BOOK_BAD_REQUEST(HttpStatus.BAD_REQUEST, "BOOK_400", "잘못된 요청입니다."),
 
     // UserBook 관련
-    USER_BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "UB_001", "매칭되지 않은 책입니다.");
+    USER_BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "UB_001", "매칭되지 않은 책입니다."),
+
+    // Quiz 관련
+    QUIZ_NOT_FOUND(HttpStatus.NOT_FOUND, "QZ_001", "존재하지 않은 퀴즈입니다."),
+    QUIZ_STEP_NOT_FOUND(HttpStatus.BAD_REQUEST, "QZ_002", "다음 단계의 퀴즈가 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
