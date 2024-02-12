@@ -1,5 +1,7 @@
 package com.beyondB.beyondB.service;
 
+import com.beyondB.beyondB.dto.request.BookRequestDTO;
+import com.beyondB.beyondB.dto.response.BookResponseDTO;
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.User;
 import com.beyondB.beyondB.entity.enums.Age;
@@ -14,6 +16,8 @@ public interface BookService {
     List<UserBook> getUserBooks(User user);
 
     Book createBook(BookRequestDTO.CreateBookDTO request);
+
+    BookResponseDTO.DetailBookDTO getDetailBook(User user, Long bookId);
 
     Book recommendBook(Emotion emotion, Age age, User user);
 }

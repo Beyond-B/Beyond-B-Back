@@ -17,12 +17,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("api/book")
@@ -50,7 +53,17 @@ public class BookController {
 
         Book book = bookService.createBook(request);
 
-        return BaseResponse.onSuccess(BookConverter.toCreateBookDTO(book));
+        return BaseResponse.onSuccess(BookConverter.toBookContentDTO(book));
+    }
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "조회 성공")})
+    @Operation(summary = "책 상세 조회", description = "책 상세조회 API입니다.")
+    @GetMapping("/{bookId}/detail")
+    @Parameter(name = "user", hidden = true)
+    @ResponseStatus(code = HttpStatus.OK)
+    public BaseResponse<BookResponseDTO.DetailBookDTO> getDetailBook(@AuthUser User user, @PathVariable Long bookId) {
+        BookResponseDTO.DetailBookDTO getBook = bookService.getDetailBook(user, bookId);
+
+        return BaseResponse.onSuccess(getBook);
     }
 
     @GetMapping("/recommend")

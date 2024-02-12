@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 public class BookResponseDTO {
 
 
@@ -32,6 +34,16 @@ public class BookResponseDTO {
         private String bookImage;
         private String author;
         private String publisher;
-        private int publicationYear;
+        private Integer publicationYear;
+    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DetailBookDTO {
+        private BookResponseDTO.BookContentDTO bookContent;
+        private LocalDateTime quiz1Date;
+        private LocalDateTime quiz2Date;
+        private LocalDateTime quiz3Date;
     }
 }

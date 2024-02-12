@@ -34,10 +34,6 @@ public enum ErrorStatus implements BaseErrorCode {
     // User 관련
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "AUTH_004", "존재하지 않는 사용자입니다."),
 
-    // Recreation 관련
-    SEARCH_CONDITION_INVALID(HttpStatus.BAD_REQUEST, "RECR_001", "검색 조건이 하나라도 존재해야 합니다."),
-    RECREATION_NOT_FOUND(HttpStatus.NOT_FOUND, "RECR_002", "존재하지 않는 레크레이션입니다."),
-
     // RecreationReview 관련
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REV_001", "존재하지 않는 리뷰입니다."),
 
@@ -47,7 +43,14 @@ public enum ErrorStatus implements BaseErrorCode {
     // Book 관련
     BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "BOOK_001", "존재하지 않는 책입니다."),
     BOOK_EMOTION_NOT_EXIST(HttpStatus.NOT_FOUND, "BOOK_002", "해당 감정에 맞는 책이 존재하지 않습니다."),
-    BOOK_BAD_REQUEST(HttpStatus.BAD_REQUEST, "BOOK_400", "잘못된 요청입니다.");
+    BOOK_BAD_REQUEST(HttpStatus.BAD_REQUEST, "BOOK_400", "잘못된 요청입니다."),
+
+    // UserBook 관련
+    USER_BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "UB_001", "매칭되지 않은 책입니다."),
+
+    // Quiz 관련
+    QUIZ_NOT_FOUND(HttpStatus.NOT_FOUND, "QZ_001", "존재하지 않은 퀴즈입니다."),
+    QUIZ_STEP_NOT_FOUND(HttpStatus.BAD_REQUEST, "QZ_002", "다음 단계의 퀴즈가 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
