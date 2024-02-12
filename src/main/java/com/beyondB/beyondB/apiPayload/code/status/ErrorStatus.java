@@ -46,6 +46,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // Book 관련
     BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "BOOK_001", "존재하지 않는 책입니다."),
+    BOOK_EMOTION_NOT_EXIST(HttpStatus.NOT_FOUND, "BOOK_002", "해당 감정에 맞는 책이 존재하지 않습니다."),
     BOOK_BAD_REQUEST(HttpStatus.BAD_REQUEST, "BOOK_400", "잘못된 요청입니다.");
 
     private final HttpStatus httpStatus;

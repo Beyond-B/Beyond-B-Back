@@ -31,7 +31,7 @@ public class BookConverter {
         }).collect(Collectors.toList());
     }
 
-    public static BookResponseDTO.BookContentDTO toCreatBookDTO(Book book) {
+    public static BookResponseDTO.BookContentDTO toCreateBookDTO(Book book) {
         return BookResponseDTO.BookContentDTO.builder()
                 .bookId(book.getId())
                 .title(book.getTitle())
