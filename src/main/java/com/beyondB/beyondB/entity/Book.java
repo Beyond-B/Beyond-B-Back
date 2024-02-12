@@ -36,7 +36,7 @@ public class Book {
 
     private String publisher;
 
-    private int publicationYear;
+    private Integer publicationYear;
 
     @Builder.Default
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
