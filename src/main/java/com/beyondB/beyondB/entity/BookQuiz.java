@@ -36,7 +36,7 @@ public class BookQuiz {
 
     private String option4;
 
-    private int answerOption;
+    private Integer answerOption;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")

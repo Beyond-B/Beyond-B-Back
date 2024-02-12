@@ -4,8 +4,8 @@ import com.beyondB.beyondB.dto.response.QuizResponseDTO;
 import com.beyondB.beyondB.entity.BookQuiz;
 
 public class QuizConverter {
-    public static QuizResponseDTO.GetQuizDTO toGetQuizDTO(BookQuiz bookQuiz) {
-        return QuizResponseDTO.GetQuizDTO.builder()
+    public static QuizResponseDTO.QuizDetailDTO toQuizDetailDTO(BookQuiz bookQuiz) {
+        return QuizResponseDTO.QuizDetailDTO.builder()
                 .quizId(bookQuiz.getId())
                 .question(bookQuiz.getQuestion())
                 .option1(bookQuiz.getOption1())

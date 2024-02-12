@@ -13,7 +13,7 @@ public class QuizResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class GetQuizDTO {
+    public static class QuizDetailDTO {
         private Long quizId;
         private String question;
         private String option1;

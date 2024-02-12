@@ -24,10 +24,10 @@ public class QuizController {
     @Operation(summary = "책 퀴즈", description = "책 퀴즈 요청 API입니다.")
     @GetMapping("/{bookId}")
     @Parameter(name = "user", hidden = true)
-    public  BaseResponse<QuizResponseDTO.GetQuizDTO> getQuiz(@AuthUser User user, @PathVariable Long bookId) {
+    public  BaseResponse<QuizResponseDTO.QuizDetailDTO> getQuiz(@AuthUser User user, @PathVariable Long bookId) {
 
-        BookQuiz requstedQuiz= quizService.getQuiz(user, bookId);
+        BookQuiz Quiz= quizService.getQuiz(user, bookId);
 
-        return BaseResponse.onSuccess(QuizConverter.toGetQuizDTO(requstedQuiz));
+        return BaseResponse.onSuccess(QuizConverter.toQuizDetailDTO(Quiz));
     }
 }
