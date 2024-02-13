@@ -66,6 +66,8 @@ public class BookController {
         return BaseResponse.onSuccess(getBook);
     }
 
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "조회 성공")})
+    @Operation(summary = "책 추천", description = "감정을 기반으로 책을 추천하는 API입니다.")
     @GetMapping("/recommend")
     @Parameter(name = "user", hidden = true)
     public BaseResponse<BookResponseDTO.BookContentDTO> recommendBook(
@@ -73,5 +75,14 @@ public class BookController {
         Book book = bookService.recommendBook(emotion, age, user);
 
         return BaseResponse.onSuccess(BookConverter.toCreateBookDTO(book));
+    }
+
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "조회 성공")})
+    @Operation(summary = "최근 책", description = "가장 최근에 푼 퀴즈의 책ID를 반환해주는 API입니다.")
+    @GetMapping("/recent")
+    @Parameter(name = "user", hidden = true)
+    public BaseResponse<Long> recentQuiz(@AuthUser User user) {
+        Long bookId = bookService.recentQuiz(user);
+        return BaseResponse.onSuccess(bookId);
     }
 }

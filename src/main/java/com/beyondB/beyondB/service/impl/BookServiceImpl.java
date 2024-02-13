@@ -20,9 +20,14 @@ import com.beyondB.beyondB.service.BookService;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -131,6 +136,22 @@ public class BookServiceImpl implements BookService {
             throw new BookException(ErrorStatus.BOOK_EMOTION_NOT_EXIST);
         }
         return recommendedBook;
+    }
+
+    @Override
+    public Long recentQuiz(User user) {
+        List<UserBook> userBooks = userBookRepository.findAllByUser(user);
+        return userBooks.stream()
+                .filter(Objects::nonNull) // Null 체크
+                .flatMap(userBook -> Stream.of(
+                        new AbstractMap.SimpleEntry<>(userBook.getQuiz1Date(), userBook),
+                        new AbstractMap.SimpleEntry<>(userBook.getQuiz2Date(), userBook),
+                        new AbstractMap.SimpleEntry<>(userBook.getQuiz3Date(), userBook)
+                ))
+                .filter(entry -> Objects.nonNull(entry.getKey())) // 날짜가 있는지 체크
+                .max(Entry.comparingByKey()) // 가장 최근 날짜 찾기
+                .map(entry -> entry.getValue().getBook().getId()) // 해당 UserBook의 Book ID 가져오기
+                .orElse(null); // 가장 최근 퀴즈가 없다면 null 반환
     }
 
     private Book findBookByAge(List<Book> books, Age age, List<Long> readBookIds) {

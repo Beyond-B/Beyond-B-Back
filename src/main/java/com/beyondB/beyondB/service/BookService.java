@@ -20,4 +20,6 @@ public interface BookService {
     BookResponseDTO.DetailBookDTO getDetailBook(User user, Long bookId);
 
     Book recommendBook(Emotion emotion, Age age, User user);
+
+    Long recentQuiz(User user);
 }
