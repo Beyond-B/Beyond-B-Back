@@ -22,6 +22,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,6 +94,59 @@ public class BookServiceImpl implements BookService {
 
         return BookConverter.toDetailBookDTO(book, quiz1Date, quiz2Date, quiz3Date);
     }
+
+    @Override
+    public Book recommendBook(Emotion emotion, Age age, User user) {
+        Feeling feeling = feelingRepository.findByEmotion(emotion);
+        List<Book> books = bookRepository.findAllByFeeling(feeling);
+        if (books.isEmpty()) {
+            throw new BookException(ErrorStatus.BOOK_NOT_FOUND);
+        }
+
+        List<Long> readBookIds = user.getUserBookList().stream()
+                .map(userBook -> userBook.getBook().getId())
+                .collect(Collectors.toList());
+
+        Book recommendedBook = findBookByAge(books, age, readBookIds);
+        if (recommendedBook != null) {
+            return recommendedBook;
+        }
+
+        // 연령대 범위를 확장해 나가며 책 검색하기
+        for (int i = 1; recommendedBook == null && i < Age.values().length; i++) {
+            Age lowerAge = age.getLower(i);
+            if (lowerAge != null) {
+                recommendedBook = findBookByAge(books, lowerAge, readBookIds);
+            }
+
+            if (recommendedBook == null) {
+                Age higherAge = age.getHigher(i);
+                if (higherAge != null) {
+                    recommendedBook = findBookByAge(books, higherAge, readBookIds);
+                }
+            }
+        }
+
+        if (recommendedBook == null) {
+            throw new BookException(ErrorStatus.BOOK_EMOTION_NOT_EXIST);
+        }
+        return recommendedBook;
+    }
+
+    private Book findBookByAge(List<Book> books, Age age, List<Long> readBookIds) {
+        for (Book book : books) {
+            if (readBookIds.contains(book.getId())) {
+                continue;
+            }
+            for (BookAge bookAge : book.getBookAgeList()) {
+                if (bookAge.getAge().equals(age)) {
+                    return book;
+                }
+            }
+        }
+        return null;
+    }
+
 
     private boolean isImageUrlValid(String imageUrl) {
         try {

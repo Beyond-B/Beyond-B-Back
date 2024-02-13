@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 
 public class BookConverter {
+
     public static BookResponseDTO.BookContentDTO toBookContentDTO(Book book) {
         return BookResponseDTO.BookContentDTO.builder()
                 .bookId(book.getId())
@@ -43,6 +44,17 @@ public class BookConverter {
         }).collect(Collectors.toList());
     }
 
+    public static BookResponseDTO.BookContentDTO toCreateBookDTO(Book book) {
+        return BookResponseDTO.BookContentDTO.builder()
+                .bookId(book.getId())
+                .title(book.getTitle())
+                .bookSummary(book.getBookSummary())
+                .bookImage(book.getBookImage())
+                .author(book.getAuthor())
+                .publisher(book.getPublisher())
+                .publicationYear(book.getPublicationYear())
+                .build();
+    }
 
     public static BookResponseDTO.DetailBookDTO toDetailBookDTO(Book book, LocalDateTime quiz1Date, LocalDateTime quiz2Date, LocalDateTime quiz3Date) {
         return BookResponseDTO.DetailBookDTO.builder()
@@ -60,5 +72,7 @@ public class BookConverter {
                 .quiz3Date(quiz3Date)
                 .build();
     }
+
+
 }
 

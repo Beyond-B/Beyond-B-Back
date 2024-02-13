@@ -6,6 +6,7 @@ import com.beyondB.beyondB.dto.request.BookRequestDTO;
 import com.beyondB.beyondB.dto.response.BookResponseDTO;
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.User;
+import com.beyondB.beyondB.entity.enums.Age;
 import com.beyondB.beyondB.entity.enums.Emotion;
 import com.beyondB.beyondB.entity.mapping.UserBook;
 import com.beyondB.beyondB.security.handler.annotation.AuthUser;
@@ -63,5 +64,14 @@ public class BookController {
         BookResponseDTO.DetailBookDTO getBook = bookService.getDetailBook(user, bookId);
 
         return BaseResponse.onSuccess(getBook);
+    }
+
+    @GetMapping("/recommend")
+    @Parameter(name = "user", hidden = true)
+    public BaseResponse<BookResponseDTO.BookContentDTO> recommendBook(
+            @RequestParam Emotion emotion, @RequestParam Age age, @AuthUser User user) {
+        Book book = bookService.recommendBook(emotion, age, user);
+
+        return BaseResponse.onSuccess(BookConverter.toCreateBookDTO(book));
     }
 }
