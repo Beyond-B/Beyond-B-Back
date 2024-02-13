@@ -141,17 +141,27 @@ public class BookServiceImpl implements BookService {
     @Override
     public Long recentQuiz(User user) {
         List<UserBook> userBooks = userBookRepository.findAllByUser(user);
-        return userBooks.stream()
-                .filter(Objects::nonNull) // Null 체크
+        List<AbstractMap.SimpleEntry<LocalDateTime, UserBook>> quizEntries = userBooks.stream()
                 .flatMap(userBook -> Stream.of(
                         new AbstractMap.SimpleEntry<>(userBook.getQuiz1Date(), userBook),
                         new AbstractMap.SimpleEntry<>(userBook.getQuiz2Date(), userBook),
                         new AbstractMap.SimpleEntry<>(userBook.getQuiz3Date(), userBook)
                 ))
-                .filter(entry -> Objects.nonNull(entry.getKey())) // 날짜가 있는지 체크
-                .max(Entry.comparingByKey()) // 가장 최근 날짜 찾기
-                .map(entry -> entry.getValue().getBook().getId()) // 해당 UserBook의 Book ID 가져오기
-                .orElse(null); // 가장 최근 퀴즈가 없다면 null 반환
+                .filter(entry -> Objects.nonNull(entry.getKey())) // 유효한 날짜만 필터링
+                .sorted(Comparator.comparing((AbstractMap.SimpleEntry<LocalDateTime, UserBook> entry) -> entry.getKey()).reversed())
+                .toList();
+
+        for (AbstractMap.SimpleEntry<LocalDateTime, UserBook> entry : quizEntries) {
+            UserBook userBook = entry.getValue();
+            // 모든 퀴즈가 풀렸는지 확인
+            if (userBook.getQuiz1Date() != null && userBook.getQuiz2Date() != null && userBook.getQuiz3Date() != null) {
+                continue; // 모두 풀었다면 다음 UserBook으로 넘어감
+            } else {
+                return userBook.getBook().getId(); // 하나라도 안 푼 퀴즈가 있다면 해당 책의 ID 반환
+            }
+        }
+
+        return null;
     }
 
     private Book findBookByAge(List<Book> books, Age age, List<Long> readBookIds) {

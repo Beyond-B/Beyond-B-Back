@@ -46,4 +46,12 @@ public class BookResponseDTO {
         private LocalDateTime quiz2Date;
         private LocalDateTime quiz3Date;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RecentBookDTO {
+        private Long bookId;
+    }
 }

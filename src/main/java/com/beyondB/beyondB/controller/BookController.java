@@ -4,6 +4,7 @@ import com.beyondB.beyondB.apiPayload.BaseResponse;
 import com.beyondB.beyondB.converter.BookConverter;
 import com.beyondB.beyondB.dto.request.BookRequestDTO;
 import com.beyondB.beyondB.dto.response.BookResponseDTO;
+import com.beyondB.beyondB.dto.response.BookResponseDTO.RecentBookDTO;
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.User;
 import com.beyondB.beyondB.entity.enums.Age;
@@ -81,8 +82,8 @@ public class BookController {
     @Operation(summary = "최근 책", description = "가장 최근에 푼 퀴즈의 책ID를 반환해주는 API입니다.")
     @GetMapping("/recent")
     @Parameter(name = "user", hidden = true)
-    public BaseResponse<Long> recentQuiz(@AuthUser User user) {
+    public BaseResponse<RecentBookDTO> recentQuiz(@AuthUser User user) {
         Long bookId = bookService.recentQuiz(user);
-        return BaseResponse.onSuccess(bookId);
+        return BaseResponse.onSuccess(BookConverter.toRecentBookDTO(bookId));
     }
 }

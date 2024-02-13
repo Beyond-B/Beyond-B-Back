@@ -1,6 +1,7 @@
 package com.beyondB.beyondB.converter;
 
 import com.beyondB.beyondB.dto.response.BookResponseDTO;
+import com.beyondB.beyondB.dto.response.BookResponseDTO.RecentBookDTO;
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.mapping.UserBook;
 import java.util.List;
@@ -73,6 +74,8 @@ public class BookConverter {
                 .build();
     }
 
-
+    public static RecentBookDTO toRecentBookDTO(Long bookId) {
+        return RecentBookDTO.builder().bookId(bookId).build();
+    }
 }
 
