@@ -20,9 +20,14 @@ import com.beyondB.beyondB.service.BookService;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -131,6 +136,32 @@ public class BookServiceImpl implements BookService {
             throw new BookException(ErrorStatus.BOOK_EMOTION_NOT_EXIST);
         }
         return recommendedBook;
+    }
+
+    @Override
+    public Long recentQuiz(User user) {
+        List<UserBook> userBooks = userBookRepository.findAllByUser(user);
+        List<AbstractMap.SimpleEntry<LocalDateTime, UserBook>> quizEntries = userBooks.stream()
+                .flatMap(userBook -> Stream.of(
+                        new AbstractMap.SimpleEntry<>(userBook.getQuiz1Date(), userBook),
+                        new AbstractMap.SimpleEntry<>(userBook.getQuiz2Date(), userBook),
+                        new AbstractMap.SimpleEntry<>(userBook.getQuiz3Date(), userBook)
+                ))
+                .filter(entry -> Objects.nonNull(entry.getKey())) // 유효한 날짜만 필터링
+                .sorted(Comparator.comparing((AbstractMap.SimpleEntry<LocalDateTime, UserBook> entry) -> entry.getKey()).reversed())
+                .toList();
+
+        for (AbstractMap.SimpleEntry<LocalDateTime, UserBook> entry : quizEntries) {
+            UserBook userBook = entry.getValue();
+            // 모든 퀴즈가 풀렸는지 확인
+            if (userBook.getQuiz1Date() != null && userBook.getQuiz2Date() != null && userBook.getQuiz3Date() != null) {
+                continue; // 모두 풀었다면 다음 UserBook으로 넘어감
+            } else {
+                return userBook.getBook().getId(); // 하나라도 안 푼 퀴즈가 있다면 해당 책의 ID 반환
+            }
+        }
+
+        return null;
     }
 
     private Book findBookByAge(List<Book> books, Age age, List<Long> readBookIds) {
