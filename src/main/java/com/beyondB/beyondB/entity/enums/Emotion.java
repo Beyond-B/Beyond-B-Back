@@ -2,10 +2,10 @@ package com.beyondB.beyondB.entity.enums;
 
 public enum Emotion {
     HAPPY,
-    SAD,
+    DEPRESSED,
     ANGRY,
     SURPRISED,
-    DISGUSTED,
-    SCARED,
+    SADNESS,
+    WORRIED,
     ;
 }
