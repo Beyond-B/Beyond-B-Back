@@ -101,13 +101,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book recommendBook(Emotion emotion, Age age, User user) {
+    public Book recommendBook(Emotion emotion, User user) {
         Feeling feeling = feelingRepository.findByEmotion(emotion);
         List<Book> books = bookRepository.findAllByFeeling(feeling);
         if (books.isEmpty()) {
             throw new BookException(ErrorStatus.BOOK_NOT_FOUND);
         }
-
+        Age age = stringToAge(user.getAge());
         List<Long> readBookIds = user.getUserBookList().stream()
                 .map(userBook -> userBook.getBook().getId())
                 .collect(Collectors.toList());
@@ -189,6 +189,29 @@ public class BookServiceImpl implements BookService {
             return contentType != null && contentType.startsWith("image/");
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    private Age stringToAge(String ageString) {
+        int age;
+        try {
+            age = Integer.parseInt(ageString);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid age format");
+        }
+
+        if (age < 7) {
+            return Age.UNDER_7;
+        } else if (age <= 10) {
+            return Age.AGE_7_10;
+        } else if (age <= 13) {
+            return Age.AGE_11_13;
+        } else if (age <= 16) {
+            return Age.AGE_14_16;
+        } else if (age <= 19) {
+            return Age.AGE_17_19;
+        } else {
+            return Age.OVER_18;
         }
     }
 }
