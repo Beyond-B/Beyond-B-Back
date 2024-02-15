@@ -50,7 +50,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // Quiz 관련
     QUIZ_NOT_FOUND(HttpStatus.NOT_FOUND, "QZ_001", "존재하지 않은 퀴즈입니다."),
-    QUIZ_STEP_NOT_FOUND(HttpStatus.BAD_REQUEST, "QZ_002", "다음 단계의 퀴즈가 존재하지 않습니다.");
+    QUIZ_STEP_NOT_FOUND(HttpStatus.BAD_REQUEST, "QZ_002", "다음 단계의 퀴즈가 존재하지 않습니다."),
+    QUIZ_SUBMIT_BAD_REQUEST(HttpStatus.BAD_REQUEST, "QZ_003", "이미 완료한 단계입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
