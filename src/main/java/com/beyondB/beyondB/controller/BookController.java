@@ -72,8 +72,8 @@ public class BookController {
     @GetMapping("/recommend")
     @Parameter(name = "user", hidden = true)
     public BaseResponse<BookResponseDTO.BookContentDTO> recommendBook(
-            @RequestParam Emotion emotion, @RequestParam Age age, @AuthUser User user) {
-        Book book = bookService.recommendBook(emotion, age, user);
+            @RequestParam Emotion emotion, @AuthUser User user) {
+        Book book = bookService.recommendBook(emotion, user);
 
         return BaseResponse.onSuccess(BookConverter.toCreateBookDTO(book));
     }
