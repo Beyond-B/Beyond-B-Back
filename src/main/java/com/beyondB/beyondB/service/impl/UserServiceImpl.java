@@ -3,6 +3,7 @@ package com.beyondB.beyondB.service.impl;
 import com.beyondB.beyondB.apiPayload.code.status.ErrorStatus;
 import com.beyondB.beyondB.apiPayload.exception.UserException;
 import com.beyondB.beyondB.dto.UserSignupDTO;
+import com.beyondB.beyondB.dto.request.UserRequestDTO.PatchAgeDTO;
 import com.beyondB.beyondB.entity.User;
 import com.beyondB.beyondB.entity.enums.Role;
 import com.beyondB.beyondB.repository.UserRepository;
@@ -47,5 +48,10 @@ public class UserServiceImpl implements UserService {
         user.passwordEncode(passwordEncoder);
         userRepository.save(user);
 
+    }
+
+    public User patchAge(User user, PatchAgeDTO patchAgeDTO) {
+        user.updateUserAge(patchAgeDTO.getAge());
+        return user;
     }
 }
