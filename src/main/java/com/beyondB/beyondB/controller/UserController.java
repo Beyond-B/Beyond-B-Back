@@ -3,6 +3,7 @@ package com.beyondB.beyondB.controller;
 import com.beyondB.beyondB.apiPayload.BaseResponse;
 import com.beyondB.beyondB.converter.UserConverter;
 import com.beyondB.beyondB.dto.UserSignupDTO;
+import com.beyondB.beyondB.dto.request.UserRequestDTO.PatchAgeDTO;
 import com.beyondB.beyondB.dto.response.UserResponseDTO.UserDetailDTO;
 import com.beyondB.beyondB.entity.User;
 import com.beyondB.beyondB.security.handler.annotation.AuthUser;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +47,14 @@ public class UserController {
     @Parameter(name = "user", hidden = true)
     public BaseResponse<UserDetailDTO> myPage(@AuthUser User user) {
         return BaseResponse.onSuccess(UserConverter.toUserDetailDTO(user));
+    }
+
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "조회 성공")})
+    @Operation(summary = "나이 수정 API", description = "나이 수정 API입니다.")
+    @PatchMapping("/age")
+    @Parameter(name = "user", hidden = true)
+    public BaseResponse<UserDetailDTO> patchAge(@AuthUser User user, @RequestBody PatchAgeDTO patchAgeDTO) {
+        User newUser = userService.patchAge(user, patchAgeDTO);
+        return BaseResponse.onSuccess(UserConverter.toUserDetailDTO(newUser));
     }
 }
