@@ -1,7 +1,16 @@
 package com.beyondB.beyondB.controller;
 
+import com.beyondB.beyondB.apiPayload.BaseResponse;
+import com.beyondB.beyondB.converter.UserConverter;
 import com.beyondB.beyondB.dto.UserSignupDTO;
+import com.beyondB.beyondB.dto.response.UserResponseDTO.UserDetailDTO;
+import com.beyondB.beyondB.entity.User;
+import com.beyondB.beyondB.security.handler.annotation.AuthUser;
 import com.beyondB.beyondB.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,5 +37,13 @@ public class UserController {
     @GetMapping("/test")
     public String test() {
         return "test 요청 성공";
+    }
+
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "조회 성공")})
+    @Operation(summary = "마이페이지", description = "마이페이지 조회 API입니다.")
+    @GetMapping("/mypage")
+    @Parameter(name = "user", hidden = true)
+    public BaseResponse<UserDetailDTO> myPage(@AuthUser User user) {
+        return BaseResponse.onSuccess(UserConverter.toUserDetailDTO(user));
     }
 }
