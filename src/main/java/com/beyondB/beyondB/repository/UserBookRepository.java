@@ -9,5 +9,4 @@ import java.util.List;
 public interface UserBookRepository extends JpaRepository<UserBook, Long> {
     UserBook findByUserAndBook(User user, Book book);
     List<UserBook> findAllByUser(User user);
-
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public interface BookService {
     List<Book> getBookPreview(Emotion emotion, User user);
 
-    List<UserBook> getUserBooks(User user);
+    List<UserBook> getUserBooksByEmotion(Emotion emotion, User user);
 
     Book createBook(BookRequestDTO.CreateBookDTO request);
 

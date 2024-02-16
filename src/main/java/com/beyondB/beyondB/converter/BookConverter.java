@@ -22,7 +22,8 @@ public class BookConverter {
                 .build();
     }
 
-    public static List<BookResponseDTO.BookPreviewDTO> toBookPreviewDTO(List<Book> books, List<UserBook> userBooks) {
+    public static List<BookResponseDTO.BookPreviewDTO> toBookPreviewDTO(List<UserBook> userBooks) {
+        List<Book> books = userBooks.stream().map(UserBook::getBook).toList();
         return books.stream().map(book -> {
 
             UserBook matchingUserBook = userBooks.stream()

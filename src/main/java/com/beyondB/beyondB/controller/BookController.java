@@ -40,10 +40,9 @@ public class BookController {
     @Parameter(name = "user", hidden = true)
     public BaseResponse<List<BookResponseDTO.BookPreviewDTO>> getBookPreview(
             @AuthUser User user, @RequestParam Emotion emotion) {
-        List<Book> bookPreview = bookService.getBookPreview(emotion, user);
-        List<UserBook> userBooks = bookService.getUserBooks(user);
+        List<UserBook> userBooks = bookService.getUserBooksByEmotion(emotion, user);
 
-        return BaseResponse.onSuccess(BookConverter.toBookPreviewDTO(bookPreview, userBooks));
+        return BaseResponse.onSuccess(BookConverter.toBookPreviewDTO(userBooks));
     }
 
     @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "등록 성공")})
