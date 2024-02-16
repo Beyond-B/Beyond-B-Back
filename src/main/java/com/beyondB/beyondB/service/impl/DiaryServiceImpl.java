@@ -37,6 +37,8 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Transactional
     public Diary createDiary(DiaryRequestDTO.CreateDiaryDTO request, User user) {
+        Feeling feeling = feelingRepository.findByEmotion(request.getEmotion());
+
         Diary diary = Diary.builder().user(user)
                 .behavior(request.getBehavior())
                 .result(request.getResult())
@@ -44,14 +46,8 @@ public class DiaryServiceImpl implements DiaryService {
                 .event(request.getEvent())
                 .date(request.getDate())
                 .emotionSpecific(request.getEmotionSpecific())
-
+                .feeling(feeling)
                 .build();
-
-        Emotion emotion = request.getEmotion();
-        Feeling feeling = feelingRepository.findByEmotion(emotion);
-
-        diary.setFeeling(feeling);
-
 
         diaryRepository.save(diary);
         return diary;

@@ -17,6 +17,7 @@ public class DiaryConverter {
                 .emotionSpecific(diary.getEmotionSpecific())
                 .behavior(diary.getBehavior())
                 .result(diary.getResult())
+                .feeling(diary.getFeeling().getEmotion())
                 .build();
     }
     public static DiaryResponseDTO.MonthlyDiaryDTO toMonthlyDiaryDTO(
