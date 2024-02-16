@@ -92,6 +92,7 @@ public class BookServiceImpl implements BookService {
         bookRepository.save(book);
         return book;
     }
+
     @Override
     public BookResponseDTO.DetailBookDTO getDetailBook(User user, Long bookId) {
         Book book = bookRepository.findById(bookId)
@@ -162,7 +163,8 @@ public class BookServiceImpl implements BookService {
                         new AbstractMap.SimpleEntry<>(userBook.getQuiz3Date(), userBook)
                 ))
                 .filter(entry -> Objects.nonNull(entry.getKey())) // 유효한 날짜만 필터링
-                .sorted(Comparator.comparing((AbstractMap.SimpleEntry<LocalDateTime, UserBook> entry) -> entry.getKey()).reversed())
+                .sorted(Comparator.comparing((AbstractMap.SimpleEntry<LocalDateTime, UserBook> entry) -> entry.getKey())
+                        .reversed())
                 .toList();
 
         for (AbstractMap.SimpleEntry<LocalDateTime, UserBook> entry : quizEntries) {
@@ -213,6 +215,7 @@ public class BookServiceImpl implements BookService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid age format");
         }
+        age -= 3; //실제 나이보다 3살 어린 나이대의 책 추천
 
         if (age < 7) {
             return Age.UNDER_7;
