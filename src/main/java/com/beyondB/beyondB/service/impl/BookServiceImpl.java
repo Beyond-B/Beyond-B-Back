@@ -101,6 +101,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public Book recommendBook(Emotion emotion, User user) {
         Feeling feeling = feelingRepository.findByEmotion(emotion);
         List<Book> books = bookRepository.findAllByFeeling(feeling);
@@ -114,6 +115,8 @@ public class BookServiceImpl implements BookService {
 
         Book recommendedBook = findBookByAge(books, age, readBookIds);
         if (recommendedBook != null) {
+            UserBook userBook = UserBook.builder().book(recommendedBook).user(user).build();
+            userBookRepository.save(userBook);
             return recommendedBook;
         }
 
@@ -135,6 +138,8 @@ public class BookServiceImpl implements BookService {
         if (recommendedBook == null) {
             throw new BookException(ErrorStatus.BOOK_EMOTION_NOT_EXIST);
         }
+        UserBook userBook = UserBook.builder().book(recommendedBook).user(user).build();
+        userBookRepository.save(userBook);
         return recommendedBook;
     }
 
