@@ -28,7 +28,7 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "수정 성공")})
-    @Operation(summary = "일기 수정", description = "일기 수정 API입니다.")
+    @Operation(summary = "일기 수정", description = "일기 수정 API입니다. 수정하고 싶은 필드만 넘겨주시면 됩니다.")
     @PatchMapping("/")
     @Parameter(name = "user", hidden = true)
     @ResponseStatus(code = HttpStatus.OK)

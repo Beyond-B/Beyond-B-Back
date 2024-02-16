@@ -28,7 +28,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public Diary updateDiary(DiaryRequestDTO.UpdateDiaryDTO request){
         Diary diary = diaryRepository.findById(request.getDiaryId())
-                .orElseThrow(() -> new RuntimeException("Diary not found with id: " + request.getDiaryId()));
+                .orElseThrow(() -> new DiaryException(ErrorStatus.DIARY_NOT_FOUND));
 
         updateDiaryFields(diary, request);
 
@@ -75,11 +75,23 @@ public class DiaryServiceImpl implements DiaryService {
 
 
     private void updateDiaryFields(Diary diary, DiaryRequestDTO.UpdateDiaryDTO request) {
-        diary.setDate(request.getDate());
-        diary.setEvent(request.getEvent());
-        diary.setThought(request.getThought());
-        diary.setEmotionSpecific(request.getEmotionSpecific());
-        diary.setBehavior(request.getBehavior());
-        diary.setResult(request.getResult());
+        if (request.getDate() != null) {
+            diary.setDate(request.getDate());
+        }
+        if (request.getEvent() != null) {
+            diary.setEvent(request.getEvent());
+        }
+        if (request.getThought() != null) {
+            diary.setThought(request.getThought());
+        }
+        if (request.getEmotionSpecific() != null) {
+            diary.setEmotionSpecific(request.getEmotionSpecific());
+        }
+        if (request.getBehavior() != null) {
+            diary.setBehavior(request.getBehavior());
+        }
+        if (request.getResult() != null) {
+            diary.setResult(request.getResult());
+        }
     }
 }
