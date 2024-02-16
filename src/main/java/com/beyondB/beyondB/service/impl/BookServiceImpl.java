@@ -47,9 +47,18 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAllByFeeling(feeling);
     }
 
-    public List<UserBook> getUserBooks(User user) {
-        return userBookRepository.findAllByUser(user);
+    @Override
+    public List<UserBook> getUserBooksByEmotion(Emotion emotion, User user) {
+        List<UserBook> userBooks = userBookRepository.findAllByUser(user);
+        Feeling feeling = feelingRepository.findByEmotion(emotion);
+        List<UserBook> userBooksByEmotion = new ArrayList<>();
+        for (UserBook userBook : userBooks) {
+            if (Objects.equals(userBook.getBook().getFeeling().getId(), feeling.getId())) {
+                userBooksByEmotion.add(userBook);
+            }
+        }
 
+        return userBooksByEmotion;
     }
 
     @Transactional
