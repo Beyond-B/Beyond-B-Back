@@ -15,7 +15,6 @@ public class BookRequestDTO {
         private String bookSummary;
         private String booKImage;
         private String author;
-        private String publisher;
         private Integer publicationYear;
         private List<Age> ages;
         private Emotion emotion;

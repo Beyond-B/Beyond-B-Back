@@ -31,6 +31,8 @@ public class UserBook {
 
     private LocalDateTime quiz3Date;
 
+    private LocalDateTime recommendationDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

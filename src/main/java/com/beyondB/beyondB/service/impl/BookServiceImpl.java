@@ -73,7 +73,6 @@ public class BookServiceImpl implements BookService {
                 .bookSummary(request.getBookSummary())
                 .bookImage(request.getBooKImage())
                 .author(request.getAuthor())
-                .publisher(request.getPublisher())
                 .publicationYear(request.getPublicationYear())
                 .feeling(feeling)
                 .build();
@@ -106,8 +105,10 @@ public class BookServiceImpl implements BookService {
         LocalDateTime quiz1Date = userBook.getQuiz1Date();
         LocalDateTime quiz2Date = userBook.getQuiz2Date();
         LocalDateTime quiz3Date = userBook.getQuiz3Date();
+        LocalDateTime recommendationDate = userBook.getRecommendationDate();
+        Emotion emotion = book.getFeeling().getEmotion();
 
-        return BookConverter.toDetailBookDTO(book, quiz1Date, quiz2Date, quiz3Date);
+        return BookConverter.toDetailBookDTO(book, quiz1Date, quiz2Date, quiz3Date, recommendationDate, emotion);
     }
 
     @Override
@@ -125,7 +126,11 @@ public class BookServiceImpl implements BookService {
 
         Book recommendedBook = findBookByAge(books, age, readBookIds);
         if (recommendedBook != null) {
-            UserBook userBook = UserBook.builder().book(recommendedBook).user(user).build();
+            UserBook userBook = UserBook.builder()
+                    .book(recommendedBook)
+                    .user(user)
+                    .recommendationDate(LocalDateTime.now())
+                    .build();
             userBookRepository.save(userBook);
             return recommendedBook;
         }
@@ -148,7 +153,11 @@ public class BookServiceImpl implements BookService {
         if (recommendedBook == null) {
             throw new BookException(ErrorStatus.BOOK_EMOTION_NOT_EXIST);
         }
-        UserBook userBook = UserBook.builder().book(recommendedBook).user(user).build();
+        UserBook userBook = UserBook.builder()
+                .book(recommendedBook)
+                .user(user)
+                .recommendationDate(LocalDateTime.now())
+                .build();
         userBookRepository.save(userBook);
         return recommendedBook;
     }
