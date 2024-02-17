@@ -57,11 +57,7 @@ public class BookConverter {
 
     public static BookResponseDTO.DetailBookDTO toDetailBookDTO(
             Book book,
-            LocalDateTime quiz1Date,
-            LocalDateTime quiz2Date,
-            LocalDateTime quiz3Date,
-            LocalDateTime recommendationDate,
-            Emotion emotion
+            UserBook userBook
     ) {
         return BookResponseDTO.DetailBookDTO.builder()
                 .bookContent(BookResponseDTO.BookContentDTO.builder()
@@ -71,11 +67,11 @@ public class BookConverter {
                         .bookImage(book.getBookImage())
                         .author(book.getAuthor())
                         .build())
-                .quiz1Date(quiz1Date)
-                .quiz2Date(quiz2Date)
-                .quiz3Date(quiz3Date)
-                .recommendationDate(recommendationDate)
-                .emotion(emotion)
+                .quiz1Date(userBook.getQuiz1Date())
+                .quiz2Date(userBook.getQuiz2Date())
+                .quiz3Date(userBook.getQuiz3Date())
+                .recommendationDate(userBook.getCreatedAt())
+                .emotion(book.getFeeling().getEmotion())
                 .build();
     }
 

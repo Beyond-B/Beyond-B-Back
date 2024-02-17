@@ -102,13 +102,7 @@ public class BookServiceImpl implements BookService {
             throw new UserBookException(ErrorStatus.USER_BOOK_NOT_FOUND);
         }
 
-        LocalDateTime quiz1Date = userBook.getQuiz1Date();
-        LocalDateTime quiz2Date = userBook.getQuiz2Date();
-        LocalDateTime quiz3Date = userBook.getQuiz3Date();
-        LocalDateTime recommendationDate = userBook.getRecommendationDate();
-        Emotion emotion = book.getFeeling().getEmotion();
-
-        return BookConverter.toDetailBookDTO(book, quiz1Date, quiz2Date, quiz3Date, recommendationDate, emotion);
+        return BookConverter.toDetailBookDTO(book, userBook);
     }
 
     @Override
@@ -129,7 +123,6 @@ public class BookServiceImpl implements BookService {
             UserBook userBook = UserBook.builder()
                     .book(recommendedBook)
                     .user(user)
-                    .recommendationDate(LocalDateTime.now())
                     .build();
             userBookRepository.save(userBook);
             return recommendedBook;
@@ -156,7 +149,6 @@ public class BookServiceImpl implements BookService {
         UserBook userBook = UserBook.builder()
                 .book(recommendedBook)
                 .user(user)
-                .recommendationDate(LocalDateTime.now())
                 .build();
         userBookRepository.save(userBook);
         return recommendedBook;
