@@ -1,5 +1,6 @@
 package com.beyondB.beyondB.dto.response;
 
+import com.beyondB.beyondB.entity.enums.Emotion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,6 @@ public class BookResponseDTO {
     public static class BookPreviewDTO {
         private Long bookId;
         private String title;
-
         private Boolean quiz1;
         private Boolean quiz2;
         private Boolean quiz3;
@@ -33,8 +33,6 @@ public class BookResponseDTO {
         private String bookSummary;
         private String bookImage;
         private String author;
-        private String publisher;
-        private Integer publicationYear;
     }
     @Builder
     @Getter
@@ -45,6 +43,8 @@ public class BookResponseDTO {
         private LocalDateTime quiz1Date;
         private LocalDateTime quiz2Date;
         private LocalDateTime quiz3Date;
+        private LocalDateTime recommendationDate;
+        private Emotion emotion;
     }
 
     @Builder

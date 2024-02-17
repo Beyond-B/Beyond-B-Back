@@ -34,8 +34,6 @@ public class Book {
 
     private String author;
 
-    private String publisher;
-
     private Integer publicationYear;
 
     @Builder.Default

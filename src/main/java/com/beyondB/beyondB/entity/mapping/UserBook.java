@@ -2,6 +2,7 @@ package com.beyondB.beyondB.entity.mapping;
 
 import com.beyondB.beyondB.entity.Book;
 import com.beyondB.beyondB.entity.User;
+import com.beyondB.beyondB.entity.common.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserBook {
+public class UserBook extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
