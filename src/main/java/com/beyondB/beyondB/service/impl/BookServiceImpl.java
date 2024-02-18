@@ -63,7 +63,7 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     public Book createBook(BookRequestDTO.CreateBookDTO request) {
-        if (!isImageUrlValid(request.getBooKImage())) {
+        if (!isImageUrlValid(request.getBookImage())) {
             throw new BookException(ErrorStatus.BOOK_BAD_REQUEST);
         }
 
@@ -71,7 +71,7 @@ public class BookServiceImpl implements BookService {
         Book book = Book.builder()
                 .title(request.getTitle())
                 .bookSummary(request.getBookSummary())
-                .bookImage(request.getBooKImage())
+                .bookImage(request.getBookImage())
                 .author(request.getAuthor())
                 .publicationYear(request.getPublicationYear())
                 .feeling(feeling)
