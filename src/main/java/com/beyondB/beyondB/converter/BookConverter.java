@@ -38,6 +38,7 @@ public class BookConverter {
             return BookResponseDTO.BookPreviewDTO.builder()
                     .bookId(book.getId())
                     .title(book.getTitle())
+                    .author(book.getAuthor())
                     .quiz1(quiz1)
                     .quiz2(quiz2)
                     .quiz3(quiz3)
