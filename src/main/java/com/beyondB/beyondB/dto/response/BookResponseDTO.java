@@ -18,6 +18,7 @@ public class BookResponseDTO {
     public static class BookPreviewDTO {
         private Long bookId;
         private String title;
+        private String author;
         private Boolean quiz1;
         private Boolean quiz2;
         private Boolean quiz3;
