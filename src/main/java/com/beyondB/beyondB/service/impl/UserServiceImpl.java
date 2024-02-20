@@ -11,6 +11,7 @@ import com.beyondB.beyondB.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Transactional
     public User patchAge(User user, PatchAgeDTO patchAgeDTO) {
         user.updateUserAge(patchAgeDTO.getAge());
         return user;
