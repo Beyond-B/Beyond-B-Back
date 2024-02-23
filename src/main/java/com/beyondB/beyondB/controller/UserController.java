@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,5 +57,14 @@ public class UserController {
     public BaseResponse<UserDetailDTO> patchAge(@AuthUser User user, @RequestBody PatchAgeDTO patchAgeDTO) {
         User newUser = userService.patchAge(user, patchAgeDTO);
         return BaseResponse.onSuccess(UserConverter.toUserDetailDTO(newUser));
+    }
+
+    @ApiResponses({@ApiResponse(responseCode = "COMMON200", description = "삭제 성공")})
+    @Operation(summary = "회원탈퇴 API", description = "회원탈퇴 API입니다.")
+    @Parameter(name = "user", hidden = true)
+    @DeleteMapping("/user")
+    public BaseResponse<String> deleteUser(@AuthUser User user) {
+        userService.deleteUser(user);
+        return BaseResponse.onSuccess("회원탈퇴 성공");
     }
 }
