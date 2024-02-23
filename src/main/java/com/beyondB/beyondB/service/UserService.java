@@ -13,4 +13,7 @@ public interface UserService {
     void signUp(UserSignupDTO userSignUpDto) throws Exception;
 
     User patchAge(User user, PatchAgeDTO patchAgeDTO);
+
+    void deleteUser(User user);
+
 }

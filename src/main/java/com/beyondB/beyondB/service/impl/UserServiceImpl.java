@@ -52,4 +52,9 @@ public class UserServiceImpl implements UserService {
         user.updateUserAge(patchAgeDTO.getAge());
         return user;
     }
+
+    @Transactional
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
 }
